@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage('CompileandRunSonarAnalysis') {
             steps {	
-		sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=tech365sec -Dsonar.organization=tech365sec -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=81795e42128b7d4f874ecd90878d7d065a0ba426'
+		sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=techcorp -Dsonar.organization=techcorp -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=79ea801c1b86c73940e9ea9842a3db8e74b49857'
 			}
         } 
 	    stage('RunSCAAnalysisUsingSnyk') {
@@ -16,29 +16,29 @@ pipeline{
 				}
 			}
     }	
-//         stage('Build'){
-//             steps{
-//                 withDockerRegistry(
-//                     [credentialsId:"dockerlogin", url: ""]
-//                 )  {
-//                     script{
-//                     app = docker.build("asg")
-//                     }
-//                 }
-//             }
-//         }
+        stage('Build'){
+            steps{
+                withDockerRegistry(
+                    [credentialsId:"dockerlogin", url: ""]
+                )  {
+                    script{
+                    app = docker.build("tech365image")
+                    }
+                }
+            }
+        }
 
-//         stage('Push'){
-//             steps{
-//                 script{
-//                     docker.withRegistry("https://601136829775.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:aws-credentials"){
-//                         app.push("latest")
-//                     }
+        stage('Push'){
+            steps{
+                script{
+                    docker.withRegistry("https://251784464071.dkr.ecr.us-east-1.amazonaws.com", "ecr:us-east-1:aws-credentials"){
+                        app.push("latest")
+                    }
                     
                     
-//                 }
-//             }
-//         }
+                }
+            }
+        }
     }
 
     
